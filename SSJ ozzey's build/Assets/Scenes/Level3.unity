@@ -2002,6 +2002,12 @@ PrefabInstance:
       propertyPath: charactersInScene.Array.data[1]
       value: 
       objectReference: {fileID: 2098526349}
+    - target: {fileID: 7960659125411593071, guid: ec63a5173b4fd5f4eb26bd87621739fb,
+        type: 3}
+      propertyPath: characters.Array.data[2]
+      value: 
+      objectReference: {fileID: 2062008104904068272, guid: 25c8324718abaa74f98ae13df22cd623,
+        type: 3}
     - target: {fileID: 8965489050127545919, guid: ec63a5173b4fd5f4eb26bd87621739fb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2205,6 +2211,11 @@ PrefabInstance:
       propertyPath: MainManager
       value: 
       objectReference: {fileID: 361551545}
+    - target: {fileID: 4396188998003389910, guid: 4a33acb02116020478e7bb8c03384cb5,
+        type: 3}
+      propertyPath: turtle
+      value: 
+      objectReference: {fileID: 1220268876}
     - target: {fileID: 4396188998003389911, guid: 4a33acb02116020478e7bb8c03384cb5,
         type: 3}
       propertyPath: m_Name

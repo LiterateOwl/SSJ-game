@@ -9,6 +9,8 @@ public class frogMove : MonoBehaviour
     public LayerMask whatStopsMovement;
     public LayerMask hazards; //holds colliders for tiles that trigger gameover
     public LayerMask characters; //holds colliders for other characters
+    public GameObject turtle;
+    public bool together;
 
     public bool stopTurtle;
 
@@ -30,7 +32,17 @@ public class frogMove : MonoBehaviour
     {
         //move to moveTarget
         transform.position = Vector3.MoveTowards(transform.position, moveTarget.position, moveSpeed * Time.deltaTime);
-        
+
+        //check sprites are on top of each other
+        if ((transform.position.x == turtle.transform.position.x) && (transform.position.y == turtle.transform.position.y))
+        {
+            together = true;
+            //turtle disappears(trigger
+            GetComponent<SpriteRenderer>().enabled = false;
+            MM.Combine(this.gameObject, turtle);
+        }
+        else { together = false; }
+
         if (Vector3.Distance(transform.position, moveTarget.position) <= 0.5f)
         {
             if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1 && !moved)

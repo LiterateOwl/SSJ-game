@@ -37,7 +37,7 @@ public class GridMove : MonoBehaviour
             together = true;
             //turtle disappears(trigger
             GetComponent<SpriteRenderer>().enabled = false;
-            //
+            //MM.Combine(this.gameObject, frog);
         }
         else { together = false; }
         //sto

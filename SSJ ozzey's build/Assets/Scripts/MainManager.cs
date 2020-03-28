@@ -8,6 +8,7 @@ public class MainManager : MonoBehaviour
 
     public GameObject[] charactersInScene;
     public GameObject[] characters;
+    //public GameObject[] moveTargets;
 
     public void Defeat()
     {
@@ -41,7 +42,10 @@ public class MainManager : MonoBehaviour
         Quaternion rot = charA.transform.rotation;
         Destroy(charA);
         Destroy(charB);
-        Instantiate(characters[combineMatrix[a, b]], pos, rot);
+        //Transform target = characters[combineMatrix[a, b]].transform.Find("moveTarget");
+        GameObject Chimera = Instantiate(characters[combineMatrix[a, b]], pos, rot);
+        Chimera.GetComponent<frogTurtleMove>().MainManager = this.gameObject;
+        Chimera.GetComponent<frogTurtleMove>().moveTarget = Chimera.transform;
 
         return true;
     }
