@@ -6,6 +6,7 @@ public class MainManager : MonoBehaviour
 {
     public string[] charNames;
 
+    public GameObject[] charactersInScene;
     public GameObject[] characters;
 
     public void Defeat()
@@ -13,7 +14,7 @@ public class MainManager : MonoBehaviour
         GameOver();
     }
 
-    public void CheckVictory() { AllTogether(); }
+    public void CheckVictory() { if(AllTogether()) Victory(); }
 
     public int charNameToIndex(string name)
     {
@@ -21,6 +22,13 @@ public class MainManager : MonoBehaviour
         for (int i = 0; i < charNames.Length; i++) if (charNames[i] == name) index = i;
         return index;
     }
+
+    public bool checkCollision(Vector2 coordinates, float radius, LayerMask lm)
+    {
+        if (Physics2D.OverlapCircle(coordinates, radius, lm)) return true;
+        return false;
+    }
+
     public bool Combine(GameObject charA, GameObject charB)
     {
         int a = charNameToIndex(charA.name);
@@ -53,8 +61,8 @@ public class MainManager : MonoBehaviour
         Vector3 coordinates = Vector3.zero;
         for (int i = 0; i < characters.Length; i++)
         {
-            if (i == 0) coordinates = characters[i].transform.position;
-            else if (coordinates != characters[i].transform.position) return false;
+            if (i == 0) coordinates = charactersInScene[i].transform.position;
+            else if (coordinates != charactersInScene[i].transform.position) return false;
         }
         return true;
     }

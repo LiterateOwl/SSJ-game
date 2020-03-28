@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 132189391545823656}
   - component: {fileID: 132189391545823657}
   - component: {fileID: 132189391545823655}
+  - component: {fileID: 1220268877}
   m_Layer: 0
   m_Name: turtle
   m_TagString: Untagged
@@ -106,8 +107,24 @@ MonoBehaviour:
     m_Bits: 0
   characters:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   MainManager: {fileID: 0}
+--- !u!58 &1220268877
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132189391545823658}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.11
 --- !u!1 &132189392890904418
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,8 @@ public class GridMove : MonoBehaviour
     public Transform moveTarget; //Empty sprite moves towards
     public LayerMask whatStopsMovement; //holds colliders for boundaries
     public LayerMask hazards; //holds colliders for tiles that trigger gameover
-    public LayerMask characters; //holds colliders for other characters
+    public GameObject frog;
+    public bool together;
 
     public GameObject MainManager;
 
@@ -18,9 +19,10 @@ public class GridMove : MonoBehaviour
 
     void Start()
     {
+        together = false;
         moveTarget.parent = null;
         moved = false;
-        MM = MainManager.GetComponent<MainManager>();
+        MM = GetComponent<MainManager>();
     }
 
     // Update is called once per frame
@@ -28,34 +30,40 @@ public class GridMove : MonoBehaviour
     {
         //move to moveTarget
         transform.position = Vector3.MoveTowards(transform.position, moveTarget.position, moveSpeed * Time.deltaTime);
+
+        //check sprites are on top of each other
+        if ((transform.position.x == frog.transform.position.x) && (transform.position.y == frog.transform.position.y))
+        {
+            together = true;
+            //turtle disappears(trigger
+            GetComponent<SpriteRenderer>().enabled = false;
+            //
+        }
+        else { together = false; }
         //sto
-        if (Vector3.Distance(transform.position, moveTarget.position) <= 0.5f)
+        if ((Vector3.Distance(transform.position, moveTarget.position) <= 0.5f))
         {
             //gets horizontal
             if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1 && !moved)
             {
                 moved = true;
 
-                //triggers game over if there is a hazard ahead
-                if (Physics2D.OverlapCircle(moveTarget.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), .2f, hazards))
-                {
-                    MM.Defeat();
-                }
-
-                //detects contact with other characters
-                if (Physics2D.OverlapCircle(moveTarget.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), .2f, characters))
-                {
-
-                }
 
                 //moves if no collisions ahead
                 if (!Physics2D.OverlapCircle(moveTarget.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), .2f, whatStopsMovement))
                 {
+                    //triggers game over if there is a hazard ahead
+                    if (Physics2D.OverlapCircle(moveTarget.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), .2f, hazards))
+                    {
+                        Destroy(this);
+                    }
                     //moves to moveTarget
                     moveTarget.position += new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
                     //okami's rotate/flip sprite script
                     if (Mathf.Sign(Input.GetAxisRaw("Horizontal")) == 1) { transform.eulerAngles = new Vector3(0, 0, -90); }
                     else { transform.eulerAngles = new Vector3(0, 0, 90); }
+
+
                 }
             }
 
@@ -64,26 +72,21 @@ public class GridMove : MonoBehaviour
             {
                 moved = true;
 
-                //triggers game over if there is a hazard ahead
-                if (Physics2D.OverlapCircle(moveTarget.position + new Vector3(Input.GetAxisRaw("Vertical"), 0f, 0f), .2f, hazards))
-                {
-                    MM.Defeat();
-                }
-
-                //detects contact with other characters
-                if (Physics2D.OverlapCircle(moveTarget.position + new Vector3(Input.GetAxisRaw("Vertical"), 0f, 0f), .2f, characters))
-                {
-
-                }
 
                 //moves if no collisions ahead
                 if (!Physics2D.OverlapCircle(moveTarget.position + new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f), .2f, whatStopsMovement))
                 {
+                    //triggers game over if there is a hazard ahead
+                    if (Physics2D.OverlapCircle(moveTarget.position + new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f), .2f, hazards))
+                    {
+                        Destroy(this);
+                    }
                     //moves to moveTarget
                     moveTarget.position += new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
                     //okami's rotate/flip sprite script
                     if (Mathf.Sign(Input.GetAxisRaw("Vertical")) == 1) { transform.eulerAngles = new Vector3(0, 0, 0); }
                     else { transform.eulerAngles = new Vector3(0, 0, 180); }
+
                 }
             }
 
@@ -91,3 +94,5 @@ public class GridMove : MonoBehaviour
         }
     }
 }
+
+
