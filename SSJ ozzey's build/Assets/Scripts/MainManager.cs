@@ -8,7 +8,7 @@ public class MainManager : MonoBehaviour
 
     public GameObject[] charactersInScene;
     public GameObject[] characters;
-    //public GameObject[] moveTargets;
+    public GameObject moveTarget;
 
     public void Defeat()
     {
@@ -30,22 +30,42 @@ public class MainManager : MonoBehaviour
         return false;
     }
 
+    //deletes two characters who are on top of each other and replaces them with a combination
     public bool Combine(GameObject charA, GameObject charB)
     {
+        //check if there is a chimera for the characters involved
         int a = charNameToIndex(charA.name);
         int b = charNameToIndex(charB.name);
-
         if (a * b < 0) return false;
         if (combineMatrix[a, b] < 0) return false;
 
+        //create new character
         Vector2 pos = charA.transform.position;
         Quaternion rot = charA.transform.rotation;
+        //expunge old characters from the charactersInScene array
+        for (int i = 0; i < charactersInScene.Length; i++)
+        {
+            if (charactersInScene[i] == charA || charactersInScene[i] == charA) charactersInScene[i] = null;
+        }
         Destroy(charA);
         Destroy(charB);
-        //Transform target = characters[combineMatrix[a, b]].transform.Find("moveTarget");
         GameObject Chimera = Instantiate(characters[combineMatrix[a, b]], pos, rot);
+        //assign public variables of the new character's behaviour
         Chimera.GetComponent<frogTurtleMove>().MainManager = this.gameObject;
-        Chimera.GetComponent<frogTurtleMove>().moveTarget = Chimera.transform;
+        Chimera.GetComponent<frogTurtleMove>().moveTarget = Instantiate(moveTarget, pos, rot).transform;
+
+        //update the charactersInScene array
+        GameObject[] temp = new GameObject[charactersInScene.Length - 1];
+        int j = 0;
+        for (int k = 0; k < charactersInScene.Length; k++)
+        {
+            if (charactersInScene[j]) {
+                temp[j] = charactersInScene[k];
+                j++;
+            }
+        }
+        temp[j] = Chimera;
+        charactersInScene = temp;
 
         return true;
     }
